@@ -6,6 +6,9 @@ if (ASSETS / "airport.webp").resolve() != (OUT / "airport.webp").resolve():
     shutil.copy(ASSETS / "airport.webp", OUT / "airport.webp")
 shutil.copy(SCR / "v3_style.css", OUT / "style.css")
 shutil.copy(SCR / "v3_site.js", OUT / "site.js")
+(OUT / "favicon.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#cf121b"/><text x="32" y="44" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" text-anchor="middle" fill="#fff">y</text></svg>')
+if (SCR / "apple-touch-icon.png").exists() and (SCR / "apple-touch-icon.png").resolve() != (OUT / "apple-touch-icon.png").resolve():
+    shutil.copy(SCR / "apple-touch-icon.png", OUT / "apple-touch-icon.png")
 
 LOGO = ""  # logo image removed in the demo; the text wordmark is used
 ORIG = "https://example.com"
@@ -64,7 +67,7 @@ def head(title, desc, extra=""):
     return f'''<!doctype html>
 <html lang="en-ZA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{html.escape(desc)}">
-<meta name="theme-color" content="#cf121b"><meta property="og:type" content="website"><meta property="og:site_name" content="Your Company">
+<meta name="theme-color" content="#cf121b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta property="og:type" content="website"><meta property="og:site_name" content="Your Company">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}"><meta property="og:image" content="airport.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Manrope:wght@500;700;800&amp;display=swap"><link rel="stylesheet" href="style.css"><script src="site.js" defer></script>{extra}</head>

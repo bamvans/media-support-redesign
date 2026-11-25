@@ -7,6 +7,8 @@ PAGES = ["index", "services", "airport", "subscription", "networks", "marketing"
 
 css = (D / "style.css").read_text()
 js = (D / "site.js").read_text()
+fav = "data:image/svg+xml;base64," + base64.b64encode((D / "favicon.svg").read_bytes()).decode()
+touch = "data:image/png;base64," + base64.b64encode((D / "apple-touch-icon.png").read_bytes()).decode() if (D / "apple-touch-icon.png").exists() else ""
 img = "data:image/webp;base64," + base64.b64encode((D / "airport.webp").read_bytes()).decode()
 
 home = (D / "index.html").read_text()
@@ -14,6 +16,7 @@ head = home[:home.index("<body>")]
 head = re.sub(r'<link rel="stylesheet" href="style.css">', "", head)
 head = re.sub(r'<script src="site.js" defer></script>', "", head)
 head = re.sub(r'<meta property="og:image"[^>]*>', "", head)
+head = head.replace('href="favicon.svg"', f'href="{fav}"').replace('href="apple-touch-icon.png"', f'href="{touch}"')
 head = head.replace("<title>", "<title>").replace("</head>", "")
 header = home[home.index('<header class="hdr">'):home.index("</header>") + len("</header>")]
 header = header.replace(' aria-current="page"', "")
