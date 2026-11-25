@@ -45,10 +45,10 @@ I = {
 SERVICES = [
  dict(slug="airport", name="Airport specialists", icon="plane",
       short="Newspapers and magazines in terminals, lounges and restricted areas, plus handouts to passengers.",
-      best="Reaching travellers", tags=["6 core airports","Merchandising","Passenger handouts"]),
+      best="Reaching travellers", tags=["Restricted areas","Merchandising","Passenger handouts"]),
  dict(slug="subscription", name="Subscription & home delivery", icon="home",
       short="Door-to-door delivery to your subscribers, 365 days a year, on morning and afternoon rounds.",
-      best="Publishers with subscribers", tags=["365 days","Daily, weekly, monthly","5 provinces"]),
+      best="Publishers with subscribers", tags=["Daily, weekly, monthly","Morning & afternoon rounds"]),
  dict(slug="networks", name="Niche network delivery", icon="venue",
       short="Your title in hotels, dealerships, salons, offices, schools, universities and other specialist venues.",
       best="Trade and controlled-free titles", tags=["Specialist venues","Schools & tertiary","Special projects"]),
@@ -143,10 +143,9 @@ home = f'''
 <h1>Get your publications to the <em>right readers.</em></h1>
 <p class="lead">From major airports to subscribers’ doorsteps, Your Company helps publishers and brands reach the audiences that matter to them.</p>
 <div class="actions"><a class="btn" href="services.html">Explore services {I["arrow"]}</a><a class="btn btn-ghost" href="contact.html#needs">Talk to our team</a></div>
-<ul class="trust"><li>{I["check"]}Delivery 365 days a year</li><li>{I["check"]}Offices in Johannesburg &amp; Cape Town</li><li>{I["check"]}Six core airports</li></ul></div>
+</div>
 <div class="hero-media"><figure><img src="airport.webp" alt="Travellers walking through a bright airport terminal" width="1200" height="1300" fetchpriority="high"></figure>
-<div class="float float-a"><span class="ico">{I["clock"]}</span><span><strong>365 days</strong>Morning &amp; afternoon rounds</span></div>
-<div class="float float-b"><span class="ico">{I["plane"]}</span><span><strong>6 airports</strong>O. R. Tambo to King Shaka</span></div></div>
+</div>
 </div></section>
 
 <section class="paths"><div class="wrap"><div class="paths-card rv"><h2>How can we help?</h2><div class="paths-grid">{paths_html}</div></div></div></section>

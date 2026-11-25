@@ -383,3 +383,44 @@ footer a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
 }
 @media (max-width:640px){ .js .mainnav{height:calc(100dvh - 68px)} }
 .mega-grid strong{color:var(--ink)}.aside{scroll-margin-top:100px}
+
+/* trimmed homepage */
+.hero .actions{margin-bottom:0}
+#about.section{padding:clamp(48px,6vw,88px) 0}
+.value{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:24px}
+.value .ico{margin-bottom:0}
+.value h3{font-size:20px;margin-bottom:6px}
+.value p{font-size:15.5px}
+/* compact phone layout */
+@media (max-width:640px){
+  .section{padding:44px 0}
+  .section-head{margin-bottom:22px;gap:10px}
+  .hero{padding:24px 0 48px}
+  .hero-media figure{aspect-ratio:16/9;border-radius:18px}
+  .hero .actions{margin:24px 0 0}
+  .svc{padding:20px;border-radius:20px}
+  .svc-top{margin-bottom:14px}
+  .svc .ico-lg{width:46px;height:46px;border-radius:12px}
+  .svc h3{font-size:22px}
+  .svc .chips{margin-bottom:14px}
+  .svc .chips li:not(.best){display:none}
+  .svc-grid{gap:12px}
+  .stats{margin:24px 0 28px}
+  .stat{padding:16px}
+  .stat strong{font-size:34px}
+  .panel{padding:20px}
+  .airports{display:flex;flex-wrap:wrap;gap:6px}
+  .airports li{border:0;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);font-size:14px}
+  .airports li::before{display:none}
+  .regions div{padding:10px 0}
+  .values{gap:10px}
+  .value{padding:18px}
+  .cta-box{padding:26px;gap:20px}
+  footer{padding:44px 0 24px}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:28px 20px}
+  .foot-grid>div:first-child,.foot-grid>div:last-child{grid-column:1/-1}
+  .foot-bottom{margin-top:32px}
+}
+/* value card fix: icon and heading on one row, text full width */
+.value h3{grid-column:2;align-self:center;margin:0}
+.value p{grid-column:1/-1;margin-top:4px}
