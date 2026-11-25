@@ -42,7 +42,7 @@ if (enquiry) {
   const routeName = document.querySelector('#route-name');
   const routeEmail = document.querySelector('#route-email');
   const copyBtn = document.querySelector('#copy-email');
-  const addr = () => topic.value + '@mediasupport.co.za';
+  const addr = () => topic.value + '@example.com';
   const showRoute = () => {
     if (!topic.value) { route.hidden = true; return; }
     routeName.textContent = topic.selectedOptions[0].dataset.name;
@@ -96,7 +96,7 @@ if (search) {
     items.slice().sort((a, b) => b.dataset.score - a.dataset.score).forEach((li) => list.appendChild(li));
     status.textContent = !terms.length ? 'All pages' : count ? `${count} ${count === 1 ? 'page' : 'pages'} found` : 'No pages found';
     help.hidden = !terms.length || count > 2;
-    web.href = 'https://www.google.com/search?q=' + encodeURIComponent('site:mediasupport.co.za ' + query.value.trim());
+    web.href = 'https://www.google.com/search?q=' + encodeURIComponent('' + query.value.trim());
   };
   query.addEventListener('input', update);
   search.addEventListener('submit', (e) => { e.preventDefault(); update(); });

@@ -1,4 +1,4 @@
-"""Builds the v3 Media Support mockup. Usage: python3 -I v3_build.py <out_dir> <assets_dir> <scripts_dir>"""
+"""Builds the v3 Your Company mockup. Usage: python3 -I v3_build.py <out_dir> <assets_dir> <scripts_dir>"""
 import sys, json, shutil, pathlib, html
 OUT = pathlib.Path(sys.argv[1]); ASSETS = pathlib.Path(sys.argv[2]); SCR = pathlib.Path(sys.argv[3])
 OUT.mkdir(parents=True, exist_ok=True)
@@ -7,10 +7,10 @@ if (ASSETS / "airport.webp").resolve() != (OUT / "airport.webp").resolve():
 shutil.copy(SCR / "v3_style.css", OUT / "style.css")
 shutil.copy(SCR / "v3_site.js", OUT / "site.js")
 
-LOGO = "https://www.mediasupport.co.za/Portals/1/MEDIASUPPORT_logo-1.png?ver=NQtTN5rDRjRinapUCF1JPg%3D%3D"
-ORIG = "https://www.mediasupport.co.za"
-JHB_TEL, JHB = "+27116082462", "011 608 2462"
-CPT_TEL, CPT = "+27213850467", "021 385 0467"
+LOGO = ""  # logo image removed in the demo; the text wordmark is used
+ORIG = "https://example.com"
+JHB_TEL, JHB = "+27110000000", "011 000 0000"
+CPT_TEL, CPT = "+27210000000", "021 000 0000"
 
 def svg(d, w=2):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{d}</svg>'
@@ -64,7 +64,7 @@ def head(title, desc, extra=""):
     return f'''<!doctype html>
 <html lang="en-ZA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{html.escape(desc)}">
-<meta name="theme-color" content="#cf121b"><meta property="og:type" content="website"><meta property="og:site_name" content="Media Support">
+<meta name="theme-color" content="#cf121b"><meta property="og:type" content="website"><meta property="og:site_name" content="Your Company">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}"><meta property="og:image" content="airport.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Manrope:wght@500;700;800&amp;display=swap"><link rel="stylesheet" href="style.css"><script src="site.js" defer></script>{extra}</head>
@@ -75,7 +75,7 @@ def header(cur):
     mega = "".join(f'<a href="{s["slug"]}.html"><span class="ico">{I[s["icon"]]}</span><span><strong>{esc(s["name"])}</strong><span>{esc(s["best"])}</span></span></a>' for s in SERVICES)
     svc_cur = ' aria-current="page"' if cur in ("services",) + tuple(SVC) else ''
     return f'''<header class="hdr"><div class="wrap hdr-in">
-<a class="brand" href="index.html" aria-label="Media Support home"><span><b>media</b>support</span><img referrerpolicy="no-referrer" src="{LOGO}" alt="" width="200" height="44" onerror="this.hidden=true"></a>
+<a class="brand" href="index.html" aria-label="Your Company home"><span><b>your</b>company</span></a>
 <nav class="mainnav" id="mainnav" aria-label="Main"><ul>
 <li class="has-menu"><a href="services.html"{svc_cur}>Services {I["chev"].replace("<svg ", '<svg class="chev" ')}</a><div class="mega"><div class="mega-grid">{mega}</div><a class="mega-foot link" href="services.html#fit">Not sure which fits? Compare services {I["arrow"]}</a></div></li>
 <li><a href="delivery-help.html"{ac("delivery")}>Delivery help</a></li>
@@ -90,14 +90,14 @@ def footer():
     svc = "".join(f'<li><a href="{s["slug"]}.html">{esc(s["name"])}</a></li>' for s in SERVICES)
     return f'''<footer><div class="wrap">
 <div class="foot-grid">
-<div><div class="foot-brand"><b>media</b>support</div><p>Media distribution and direct marketing for publishers and brands across South Africa.</p></div>
+<div><div class="foot-brand"><b>your</b>company</div><p>Media distribution and direct marketing for publishers and brands across South Africa.</p></div>
 <div><h2>Services</h2><ul>{svc}<li><a href="services.html#fit">Compare services</a></li></ul></div>
 <div><h2>Help</h2><ul><li><a href="delivery-help.html">Late or missing delivery</a></li><li><a href="contact.html#needs">Who should I contact?</a></li><li><a href="contact.html#accounts">Invoices and payments</a></li><li><a href="search.html">Search the site</a></li></ul></div>
 <div><h2>Offices</h2>
 <div class="foot-office"><strong>Johannesburg head office</strong>Also covers KwaZulu-Natal<br><a href="tel:{JHB_TEL}">{JHB}</a></div>
 <div class="foot-office"><strong>Cape Town</strong><a href="tel:{CPT_TEL}">{CPT}</a></div></div>
 </div>
-<div class="foot-bottom"><span>© Media Support</span><nav aria-label="Legal and account"><a href="{ORIG}/Privacy">Privacy</a><a href="{ORIG}/Terms">Terms</a><a href="{ORIG}/Login">Account holders: log in</a><a href="{ORIG}/Register">Register</a></nav></div>
+<div class="foot-bottom"><span>© Your Company</span><nav aria-label="Legal and account"><a href="{ORIG}/Privacy">Privacy</a><a href="{ORIG}/Terms">Terms</a><a href="{ORIG}/Login">Account holders: log in</a><a href="{ORIG}/Register">Register</a></nav></div>
 </div></footer>
 <div class="qbar" aria-label="Quick contact"><a class="btn btn-ghost" href="tel:{JHB_TEL}">{I["phone"]}Call us</a><a class="btn" href="contact.html#needs">Who to contact</a></div>
 </body></html>'''
@@ -120,12 +120,12 @@ def cta(title="Let’s talk distribution.", text="Tell us what you’re distribu
 </div></div></section>'''
 
 ORG = {
- "@context": "https://schema.org", "@type": "Organization", "name": "Media Support", "url": "https://www.mediasupport.co.za/",
+ "@context": "https://schema.org", "@type": "Organization", "name": "Your Company", "url": "https://example.com/",
  "description": "Media distribution and direct marketing across South Africa.",
  "location": [
-  {"@type": "Place", "name": "Johannesburg head office", "telephone": "+27 11 608 2462", "address": {"@type": "PostalAddress", "streetAddress": "Unit L4, Pinelands Office Park, Maxwell Drive", "addressLocality": "Modderfontein", "addressCountry": "ZA"}},
-  {"@type": "Place", "name": "Cape Town office", "telephone": "+27 21 385 0467", "address": {"@type": "PostalAddress", "streetAddress": "Unit 8 Glenkey Place, Aviation Crescent, Airport City", "addressLocality": "Cape Town", "addressCountry": "ZA"}}],
- "contactPoint": [{"@type": "ContactPoint", "telephone": "+27 11 608 2462", "contactType": "customer service", "areaServed": "ZA"}]}
+  {"@type": "Place", "name": "Johannesburg head office", "telephone": "+27 11 000 0000", "address": {"@type": "PostalAddress", "streetAddress": "Unit 1, Example Office Park", "addressLocality": "Johannesburg", "addressCountry": "ZA"}},
+  {"@type": "Place", "name": "Cape Town office", "telephone": "+27 21 000 0000", "address": {"@type": "PostalAddress", "streetAddress": "Unit 2, Example Business Park, Cape Town", "addressLocality": "Cape Town", "addressCountry": "ZA"}}],
+ "contactPoint": [{"@type": "ContactPoint", "telephone": "+27 11 000 0000", "contactType": "customer service", "areaServed": "ZA"}]}
 JSONLD = '<script type="application/ld+json">' + json.dumps(ORG) + '</script>'
 
 # ---------------- HOME ----------------
@@ -141,7 +141,7 @@ home = f'''
 <section class="hero"><div class="wrap hero-grid">
 <div><p class="eyebrow">Media distribution across South Africa</p>
 <h1>Get your publications to the <em>right readers.</em></h1>
-<p class="lead">From major airports to subscribers’ doorsteps, Media Support helps publishers and brands reach the audiences that matter to them.</p>
+<p class="lead">From major airports to subscribers’ doorsteps, Your Company helps publishers and brands reach the audiences that matter to them.</p>
 <div class="actions"><a class="btn" href="services.html">Explore services {I["arrow"]}</a><a class="btn btn-ghost" href="contact.html#needs">Talk to our team</a></div>
 <ul class="trust"><li>{I["check"]}Delivery 365 days a year</li><li>{I["check"]}Offices in Johannesburg &amp; Cape Town</li><li>{I["check"]}Six core airports</li></ul></div>
 <div class="hero-media"><figure><img src="airport.webp" alt="Travellers walking through a bright airport terminal" width="1200" height="1300" fetchpriority="high"></figure>
@@ -183,7 +183,7 @@ home = f'''
 <article class="value rv"><span class="ico ico-lg">{I["leaf"]}</span><h3>Environmental consideration</h3><p>We work to reduce and offset our footprint, encourage non-motorised deliveries and train our teams in vehicle maintenance.</p></article>
 </div></div></section>
 <div class="soft">{cta()}</div>'''
-page("index.html", "Media Support | Publication distribution & direct marketing in South Africa",
+page("index.html", "Your Company | Publication distribution & direct marketing in South Africa",
      "Airport, subscription, niche network and direct marketing distribution for publishers and brands across South Africa. Offices in Johannesburg and Cape Town.",
      "home", home, JSONLD)
 
@@ -202,15 +202,15 @@ services = f'''
 <section class="section"><div class="wrap">{svc_cards(feature="airport")}</div></section>
 <section class="section soft" id="fit"><div class="wrap"><div class="section-head"><div><p class="eyebrow">Compare</p><h2>Which service fits?</h2></div><p class="lead">Start with who you want to reach.</p></div>
 <ul class="fit rv">{fit_html}</ul>
-<p class="muted" style="margin-top:24px">Still unsure? Call <a class="ul" href="tel:{JHB_TEL}">{JHB}</a> or <a class="ul" href="mailto:wayne@mediasupport.co.za?subject=Which%20service%20fits%3F">email sales &amp; operations</a>.</p></div></section>
+<p class="muted" style="margin-top:24px">Still unsure? Call <a class="ul" href="tel:{JHB_TEL}">{JHB}</a> or <a class="ul" href="mailto:sales@example.com?subject=Which%20service%20fits%3F">email sales &amp; operations</a>.</p></div></section>
 <div class="soft">{cta()}</div>'''
-page("services.html", "Services | Media Support", "Compare Media Support’s airport, subscription and home delivery, niche network and direct marketing services.", "services", services)
+page("services.html", "Services | Your Company", "Compare Your Company’s airport, subscription and home delivery, niche network and direct marketing services.", "services", services)
 
 # ---------------- SERVICE DETAIL PAGES ----------------
-WAYNE_CARD = lambda subj, title, text: f'''<div class="card"><h2>{title}</h2><p>{text}</p>
-<a class="btn" href="mailto:wayne@mediasupport.co.za?subject={subj}">{I["mail"]}Email sales &amp; operations</a>
-<div class="mini"><span class="avatar">WR</span><span><strong>Wayne Riley</strong>Director · <a href="tel:+27825667477">082 566 7477</a></span></div>
-<div class="mini"><span class="avatar">JE</span><span><strong>Jeremy Eaton</strong>Director · <a href="mailto:jeremy@mediasupport.co.za">jeremy@mediasupport.co.za</a></span></div></div>'''
+SALES_CARD = lambda subj, title, text: f'''<div class="card"><h2>{title}</h2><p>{text}</p>
+<a class="btn" href="mailto:sales@example.com?subject={subj}">{I["mail"]}Email sales &amp; operations</a>
+<div class="mini"><span class="avatar">SL</span><span><strong>Sales lead</strong>Director · <a href="tel:+27820000000">082 000 0000</a></span></div>
+<div class="mini"><span class="avatar">SD</span><span><strong>Sales director</strong>Director · <a href="mailto:director@example.com">director@example.com</a></span></div></div>'''
 CALL_CARD = f'''<div class="card card-dark"><h2>Prefer to call?</h2><p>Johannesburg head office <a href="tel:{JHB_TEL}" style="color:#fff;font-weight:700">{JHB}</a><br>Cape Town <a href="tel:{CPT_TEL}" style="color:#fff;font-weight:700">{CPT}</a></p><a class="link" style="color:#fff" href="contact.html#needs">See everyone you can contact {I["arrow"]}</a></div>'''
 
 def block(icon, title, text, items=None):
@@ -227,10 +227,10 @@ def service_page(slug, lead, facts, blocks, aside, orig_path):
 <ul class="chips"><li class="best">Best for: {esc(s["best"].lower())}</li></ul><a class="btn" href="#ask">{I["mail"]}Ask about this service</a></div></div>
 <div class="facts">{facts_html}</div></div></section>
 <section class="section"><div class="wrap detail"><div class="blocks">{"".join(blocks)}
-<p><a class="link" href="{ORIG}{orig_path}">Read the original service page {I["arrow"]}</a></p></div>
+<p><a class="link" href="{ORIG}{orig_path}">Read more {I["arrow"]}</a></p></div>
 <aside class="aside" id="ask">{aside}{CALL_CARD}</aside></div></section>
 <section class="section soft"><div class="wrap"><h2 style="font-size:clamp(28px,3vw,40px)">Other services</h2><div class="others">{others}</div></div></section>'''
-    page(f"{slug}.html", f"{s['name']} | Media Support", s["short"], slug, body)
+    page(f"{slug}.html", f"{s['name']} | Your Company", s["short"], slug, body)
 
 service_page("airport",
  "Put your publications in front of travellers at South Africa’s major airports, from restricted areas to passenger handouts.",
@@ -238,7 +238,7 @@ service_page("airport",
  [block("plane", "Airport distribution and merchandising", "Trained personnel distribute local and international publications, including in restricted areas. We can handle the whole chain after delivery.", ["Collection","Warehousing","Packaging","Labelling","Merchandising"]),
   block("people", "Campaigns for travellers", "Plan passenger handouts at check-in or reach travellers through airport restaurants, car rental companies and hotels. Campaigns are tailored to your audience, with supply planned to limit waste."),
   block("pin", "Core airports", "O. R. Tambo, Cape Town, King Shaka and Lanseria international airports, plus Port Elizabeth and Bloemfontein.")],
- WAYNE_CARD("Airport%20specialists%20enquiry", "Plan an airport campaign", "Tell us the title or product, which airports, and roughly how many copies or handouts."),
+ SALES_CARD("Airport%20specialists%20enquiry", "Plan an airport campaign", "Tell us the title or product, which airports, and roughly how many copies or handouts."),
  "/Our-Services/Airport-Specialists")
 
 service_page("subscription",
@@ -251,7 +251,7 @@ service_page("subscription",
   '<div><dt>Western Cape</dt><dd class="muted">Cape Town and the Seaboard</dd></div>'
   '<div><dt>Eastern Cape</dt><dd class="muted">Port Elizabeth</dd></div>'
   '<div><dt>Free State</dt><dd class="muted">Bloemfontein</dd></div></dl></div></section>'],
- WAYNE_CARD("Subscription%20%26%20home%20delivery%20enquiry", "Publishers", "Need copies delivered to your subscribers? Tell us the title, how often it’s published and the areas.")
+ SALES_CARD("Subscription%20%26%20home%20delivery%20enquiry", "Publishers", "Need copies delivered to your subscribers? Tell us the title, how often it’s published and the areas.")
  + f'<div class="card" id="delivery-help" style="border-color:#efc3c5;background:var(--pink)"><h2>Subscriber?</h2><p>Is your newspaper or magazine late, missing or damaged? We’ll help you report it.</p><a class="btn btn-ghost" href="delivery-help.html">{I["alert"]}Get delivery help</a></div>',
  "/Our-Services/Subscription-Home-Delivery-Services")
 
@@ -261,7 +261,7 @@ service_page("networks",
  [block("store", "Specialist venues", "Our networks reach readers where they spend time, so your title lands in front of the right people.", ["Hotels & guest houses","Lounges","Car rental","Dealerships","Restaurants & cafés","Wine estates","Gated communities","Retirement villages","Government offices","Embassies","Travel agents","Sport facilities","Retailers","Salons"]),
   block("school", "Schools and tertiary education", "Reach schools, colleges and universities through a dedicated network that helps publishers grow their newspaper and magazine programmes in education."),
   block("spark", "Special projects", "Develop campaigns that build readership and awareness.", ["Readership campaigns","Subscription drives","Controlled free distribution","Product sampling","Publication launches"])],
- WAYNE_CARD("Niche%20network%20delivery%20enquiry", "Find the right venues", "Tell us about your title and readers, and we’ll suggest venues that fit."),
+ SALES_CARD("Niche%20network%20delivery%20enquiry", "Find the right venues", "Tell us about your title and readers, and we’ll suggest venues that fit."),
  "/Our-Services/Niche-network-delivery-services")
 
 service_page("marketing",
@@ -270,7 +270,7 @@ service_page("marketing",
  [block("mega", "Targeted promotions", "Reach households in selected suburbs with physical marketing materials, product samples or a new product launch."),
   block("box", "What you can send", "Anything you want in a customer’s hands rather than their inbox.", ["Product samples","Promotional material","Marketing material","Launch packs"]),
   block("pin", "Where", 'Households in the suburbs you choose, across our delivery areas. <a class="ul" href="subscription.html#areas">See areas served</a>.')],
- WAYNE_CARD("Direct%20marketing%20solutions%20enquiry", "Plan a promotion", "Tell us what you’re promoting, which suburbs, and when."),
+ SALES_CARD("Direct%20marketing%20solutions%20enquiry", "Plan a promotion", "Tell us what you’re promoting, which suburbs, and when."),
  "/Our-Services/Direct-marketing-solutions")
 
 # ---------------- DELIVERY HELP ----------------
@@ -279,18 +279,18 @@ delivery = f'''
 <section class="phero"><div class="wrap"><ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Delivery help</li></ol>
 <p class="eyebrow">For subscribers and readers</p><h1>Delivery <em>late, missing</em> or damaged?</h1>
 <p class="lead">Let our client services team know. A few details help them trace your delivery quickly.</p>
-<div class="hero actions" style="background:none;padding:0;display:flex;flex-wrap:wrap;gap:12px;margin-top:28px"><a class="btn" href="mailto:nitasha@mediasupport.co.za?subject=Delivery%20problem&amp;body={body_tpl}">{I["mail"]}Email client services</a><a class="btn btn-ghost" href="tel:{JHB_TEL}">{I["phone"]}Call {JHB}</a></div></div></section>
+<div class="hero actions" style="background:none;padding:0;display:flex;flex-wrap:wrap;gap:12px;margin-top:28px"><a class="btn" href="mailto:deliveries@example.com?subject=Delivery%20problem&amp;body={body_tpl}">{I["mail"]}Email client services</a><a class="btn btn-ghost" href="tel:{JHB_TEL}">{I["phone"]}Call {JHB}</a></div></div></section>
 <section class="section"><div class="wrap">
 <ol class="steps">
 <li class="rv"><h3>Gather the details</h3><p>Have these ready:</p><ul class="checklist"><li>{I["check"]}Publication name</li><li>{I["check"]}Delivery address</li><li>{I["check"]}Date or dates affected</li><li>{I["check"]}Late, missing or damaged</li></ul></li>
-<li class="rv"><h3>Email client services</h3><p>Use the button above. It opens an email to Nitasha Reddy in client services with these questions already filled in.</p><p style="margin-top:12px"><a class="ul" href="mailto:nitasha@mediasupport.co.za">nitasha@mediasupport.co.za</a></p></li>
+<li class="rv"><h3>Email client services</h3><p>Use the button above. It opens an email to client services with these questions already filled in.</p><p style="margin-top:12px"><a class="ul" href="mailto:deliveries@example.com">deliveries@example.com</a></p></li>
 <li class="rv"><h3>Or call us</h3><p>Johannesburg head office (also KwaZulu-Natal): <a class="ul" href="tel:{JHB_TEL}">{JHB}</a></p><p style="margin-top:8px">Cape Town: <a class="ul" href="tel:{CPT_TEL}">{CPT}</a></p></li>
 </ol>
 <div class="needs" style="margin-top:20px">
-<div class="card rv"><h2>Moved or changing address?</h2><p>Subscriber address updates and subscriber lists are handled by our subscription data team.</p><div class="mini"><span class="avatar">MM</span><span><strong>Mavis Mahlasela</strong><a href="mailto:mavis@mediasupport.co.za">mavis@mediasupport.co.za</a></span></div></div>
-<div class="card rv"><h2>Are you a publisher?</h2><p>If you’re a publisher with a question about your delivery service, contact our operations team.</p><div class="mini"><span class="avatar">LC</span><span><strong>Lea-Anne Cleophas</strong>National operations · <a href="mailto:lea-anne@mediasupport.co.za">lea-anne@mediasupport.co.za</a></span></div></div>
+<div class="card rv"><h2>Moved or changing address?</h2><p>Subscriber address updates and subscriber lists are handled by our subscription data team.</p><div class="mini"><span class="avatar">ST</span><span><strong>Subscription data team</strong><a href="mailto:subscriptions@example.com">subscriptions@example.com</a></span></div></div>
+<div class="card rv"><h2>Are you a publisher?</h2><p>If you’re a publisher with a question about your delivery service, contact our operations team.</p><div class="mini"><span class="avatar">OM</span><span><strong>Operations manager</strong>National operations · <a href="mailto:operations@example.com">operations@example.com</a></span></div></div>
 </div></div></section>'''
-page("delivery-help.html", "Delivery help | Media Support", "Report a late, missing or damaged newspaper or magazine delivery to Media Support client services.", "delivery", delivery)
+page("delivery-help.html", "Delivery help | Your Company", "Report a late, missing or damaged newspaper or magazine delivery to Your Company client services.", "delivery", delivery)
 
 # ---------------- CONTACT ----------------
 def person(initials, name, role, primary=None, links=()):
@@ -300,16 +300,16 @@ def person(initials, name, role, primary=None, links=()):
 
 needs = [
  ("sales", "box", "New business", "Distribute a publication or run a campaign", "Airport, home delivery, venue networks and direct marketing.",
-  person("WR", "Wayne Riley", "Director · Sales and operations", ("mailto:wayne@mediasupport.co.za?subject=Distribution%20enquiry", "Email Wayne"), [("tel:+27825667477", "082 566 7477"), ("mailto:wayne@mediasupport.co.za", "wayne@mediasupport.co.za")])
-  + person("JE", "Jeremy Eaton", "Director · Sales and operations", None, [("mailto:jeremy@mediasupport.co.za", "jeremy@mediasupport.co.za"), ("https://wa.me/447535286686", "WhatsApp (international +44 number)")])),
+  person("SL", "Sales lead", "Director · Sales and operations", ("mailto:sales@example.com?subject=Distribution%20enquiry", "Email sales"), [("tel:+27820000000", "082 000 0000"), ("mailto:sales@example.com", "sales@example.com")])
+  + person("SD", "Sales director", "Director · Sales and operations", None, [("mailto:director@example.com", "director@example.com")])),
  ("delivery", "alert", "Deliveries", "A delivery is late, missing or damaged", "Include the publication, your delivery address and the date.",
-  person("NR", "Nitasha Reddy", "Client services · Deliveries", ("mailto:nitasha@mediasupport.co.za?subject=Delivery%20problem", "Email Nitasha"), [("mailto:nitasha@mediasupport.co.za", "nitasha@mediasupport.co.za")])
-  + person("MM", "Mavis Mahlasela", "Subscription data and systems · address updates and subscriber lists", None, [("mailto:mavis@mediasupport.co.za", "mavis@mediasupport.co.za")])),
+  person("CS", "Client services", "Deliveries team", ("mailto:deliveries@example.com?subject=Delivery%20problem", "Email client services"), [("mailto:deliveries@example.com", "deliveries@example.com")])
+  + person("ST", "Subscription data team", "Subscription data and systems · address updates and subscriber lists", None, [("mailto:subscriptions@example.com", "subscriptions@example.com")])),
  ("accounts", "doc", "Accounts", "Invoices, statements and payments", "Include your invoice or account number if you have it.",
-  person("PW", "Phillipa Wilson", "Finance manager", ("mailto:phillipa@mediasupport.co.za?subject=Accounts%20enquiry", "Email Phillipa"), [("mailto:phillipa@mediasupport.co.za", "phillipa@mediasupport.co.za")])
-  + person("ND", "Nerissa do Couto", "Director · Finance", None, [("mailto:nerissa@mediasupport.co.za", "nerissa@mediasupport.co.za")])),
+  person("FM", "Finance manager", "Invoices, statements and payments", ("mailto:accounts@example.com?subject=Accounts%20enquiry", "Email accounts"), [("mailto:accounts@example.com", "accounts@example.com")])
+  + person("FD", "Finance director", "Director · Finance", None, [("mailto:finance@example.com", "finance@example.com")])),
  ("operations", "gear", "Existing clients", "Operations, schedules and national logistics", "For publishers and brands already distributing with us.",
-  person("LC", "Lea-Anne Cleophas", "National operations manager", ("mailto:lea-anne@mediasupport.co.za?subject=Operations%20enquiry", "Email Lea-Anne"), [("mailto:lea-anne@mediasupport.co.za", "lea-anne@mediasupport.co.za")])),
+  person("OM", "Operations manager", "National operations manager", ("mailto:operations@example.com?subject=Operations%20enquiry", "Email operations"), [("mailto:operations@example.com", "operations@example.com")])),
 ]
 tiles = "".join(f'<a class="need-tile" href="#{k}"><span class="ico">{I[ic]}</span><strong>{t}</strong><span>{tag} {I["arrow"].replace("<svg ", "<svg style=\"width:14px;height:14px;vertical-align:-2px\" ")}</span></a>' for k, ic, tag, t, _, _ in needs)
 need_cards = "".join(f'<article class="need rv" id="{k}"><div class="need-head"><span class="ico ico-lg">{I[ic]}</span><div><p class="need-tag">{tag}</p><h3>{t}</h3><p>{d}</p></div></div>{ppl}</article>' for k, ic, tag, t, d, ppl in needs)
@@ -321,42 +321,42 @@ contact = f'''
 <section class="section" id="needs"><div class="wrap"><h2 class="sr" style="font-size:clamp(28px,3vw,40px)">Who should I contact?</h2><div class="needs">{need_cards}</div></div></section>
 <section class="section soft" id="offices" style="padding-top:clamp(56px,7vw,90px)"><div class="wrap"><div class="section-head"><div><p class="eyebrow">Offices</p><h2>Call or visit.</h2></div></div>
 <div class="offices">
-<article class="office rv"><h3>Johannesburg head office</h3><span class="covers">Also covers KwaZulu-Natal</span><address>Unit L4, Pinelands Office Park, Maxwell Drive, Modderfontein, Lethabong</address>
-<div class="row"><a class="btn" href="tel:{JHB_TEL}">{I["phone"]}Call {JHB}</a><a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Pinelands+Office+Park+Maxwell+Drive+Modderfontein">{I["pin"]}Directions</a></div>
-<details><summary>Postal address and fax</summary><p style="margin-top:8px">Postnet Suite 284, Private Bag X10010, Edenvale, 1610<br>Fax 086 617 1429</p></details></article>
-<article class="office rv"><h3>Cape Town</h3><span class="covers">Western Cape</span><address>Unit 8 Glenkey Place, Aviation Crescent, Airport City</address>
-<div class="row"><a class="btn" href="tel:{CPT_TEL}">{I["phone"]}Call {CPT}</a><a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Glenkey+Place+Aviation+Crescent+Airport+City+Cape+Town">{I["pin"]}Directions</a></div></article>
+<article class="office rv"><h3>Johannesburg head office</h3><span class="covers">Also covers KwaZulu-Natal</span><address>Unit 1, Example Office Park, Johannesburg</address>
+<div class="row"><a class="btn" href="tel:{JHB_TEL}">{I["phone"]}Call {JHB}</a><a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Johannesburg">{I["pin"]}Directions</a></div>
+<details><summary>Postal address and fax</summary><p style="margin-top:8px">PO Box 0000, Johannesburg, 0000<br>Fax 086 000 0000</p></details></article>
+<article class="office rv"><h3>Cape Town</h3><span class="covers">Western Cape</span><address>Unit 2, Example Business Park, Cape Town</address>
+<div class="row"><a class="btn" href="tel:{CPT_TEL}">{I["phone"]}Call {CPT}</a><a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Cape+Town">{I["pin"]}Directions</a></div></article>
 </div></div></section>
 <section class="section"><div class="wrap"><div class="formwrap rv">
 <div><p class="eyebrow">Write to us</p><h2>Prefer to write it down?</h2><p class="lead">Pick a topic and we’ll address your email to the person who handles it. You review and send it from your own email.</p></div>
 <form id="enquiry" class="form"><label for="topic">What can we help with?</label><select id="topic" name="topic" required>
 <option value="">Select a topic</option>
-<option value="wayne" data-key="sales" data-name="Wayne Riley, Sales and operations">Distributing a publication or running a campaign</option>
-<option value="nitasha" data-key="delivery" data-name="Nitasha Reddy, Client services">A delivery is late, missing or damaged</option>
-<option value="mavis" data-name="Mavis Mahlasela, Subscription data">Subscriber lists or address updates</option>
-<option value="phillipa" data-key="accounts" data-name="Phillipa Wilson, Finance manager">Invoices, statements or payments</option>
-<option value="lea-anne" data-key="operations" data-name="Lea-Anne Cleophas, National operations">Operations for an existing client</option>
-<option value="wayne" data-name="Wayne Riley, Sales and operations">Something else / not sure</option></select>
+<option value="sales" data-key="sales" data-name="Sales lead, Sales and operations">Distributing a publication or running a campaign</option>
+<option value="deliveries" data-key="delivery" data-name="Client services">A delivery is late, missing or damaged</option>
+<option value="subscriptions" data-name="Subscription data team, Subscription data">Subscriber lists or address updates</option>
+<option value="accounts" data-key="accounts" data-name="Finance manager">Invoices, statements or payments</option>
+<option value="operations" data-key="operations" data-name="Operations manager, National operations">Operations for an existing client</option>
+<option value="sales" data-name="Sales lead, Sales and operations">Something else / not sure</option></select>
 <p class="route" id="route" aria-live="polite" hidden><span>Goes to <b id="route-name"></b> · <a id="route-email" href="#"></a></span><button type="button" class="copy" id="copy-email">Copy address</button></p>
 <label for="name">Your name and company <span class="opt">(optional)</span></label><input id="name" name="name" autocomplete="name">
 <label for="message">Your message</label><textarea id="message" name="message" maxlength="1500" required placeholder="Example: Our magazine wasn’t delivered to 12 Main Road, Rosebank on Tuesday."></textarea>
 <button class="btn" type="submit">{I["mail"]}Open email draft</button>
 <p class="fallback">Nothing opened? Your device may not have an email app set up. Copy the address above and send from your usual email.</p></form>
-</div><p style="margin-top:24px"><a class="link" href="{ORIG}/Contact-Us">View the original contact page {I["arrow"]}</a></p></div></section>'''
-page("contact.html", "Contact | Media Support", "Find the right Media Support contact for new business, deliveries, accounts or operations. Offices in Johannesburg and Cape Town.", "contact", contact, JSONLD)
+</div><p style="margin-top:24px"><a class="link" href="{ORIG}/Contact-Us">Back to home {I["arrow"]}</a></p></div></section>'''
+page("contact.html", "Contact | Your Company", "Find the right Your Company contact for new business, deliveries, accounts or operations. Offices in Johannesburg and Cape Town.", "contact", contact, JSONLD)
 
 # ---------------- SEARCH ----------------
 R = [
- ("index.html#about", "people", "About Media Support", "Our approach, people and environmental considerations.", "about bee entrepreneurs environment company who we are"),
+ ("index.html#about", "people", "About Your Company", "Our approach, people and environmental considerations.", "about bee entrepreneurs environment company who we are"),
  ("services.html", "box", "Services overview", "Compare the four distribution and marketing services.", "publication distribution marketing compare which service"),
  ("airport.html", "plane", "Airport specialists", "Airport distribution, merchandising and passenger campaigns.", "tambo lanseria king shaka warehouse warehousing airport logistics cape town aircraft travellers lounges merchandising handouts"),
  ("subscription.html", "home", "Subscription & home delivery", "Door-to-door delivery and areas covered.", "durban joburg johannesburg pretoria sandton rosebank randburg ekurhuleni pietermaritzburg port elizabeth gqeberha bloemfontein seaboard home newspaper subscription magazines areas coverage"),
  ("networks.html", "venue", "Niche network delivery", "Specialist venues, education and special projects.", "hotels schools universities colleges specialist niche venues salons dealerships embassies trade controlled free launches"),
  ("marketing.html", "mega", "Direct marketing solutions", "Product sampling and targeted promotions.", "product samples sampling suburbs promotions advertising flyers leaflets launch households"),
- ("delivery-help.html", "alert", "Delivery help", "Report a late, missing or damaged delivery.", "delivery late missing missed damaged complaint problem not delivered subscriber paper newspaper magazine nitasha"),
- ("contact.html#accounts", "doc", "Invoices and payments", "Contact our finance team.", "finance invoice invoices statement payment pay billing account accounts phillipa nerissa"),
- ("contact.html#operations", "gear", "Operations for existing clients", "Contact our national operations manager.", "operations existing client schedule logistics lea-anne"),
- ("contact.html", "phone", "Contact Media Support", "Office numbers, people to contact and an enquiry form.", "phone call email sales johannesburg cape town kwazulu natal wayne jeremy mavis whatsapp office address directions fax postal"),
+ ("delivery-help.html", "alert", "Delivery help", "Report a late, missing or damaged delivery.", "delivery late missing missed damaged complaint problem not delivered subscriber paper newspaper magazine "),
+ ("contact.html#accounts", "doc", "Invoices and payments", "Contact our finance team.", "finance invoice invoices statement payment pay billing account accounts "),
+ ("contact.html#operations", "gear", "Operations for existing clients", "Contact our national operations manager.", "operations existing client schedule logistics "),
+ ("contact.html", "phone", "Contact Your Company", "Office numbers, people to contact and an enquiry form.", "phone call email sales johannesburg cape town kwazulu natal whatsapp office address directions fax postal"),
 ]
 results = "".join(f'<li data-keywords="{k}"><a href="{h}"><span class="ico">{I[ic]}</span><span><strong>{esc(t)}</strong><p>{esc(d)}</p></span>{I["arrow"].replace("<svg ", "<svg class=\"arrow\" ")}</a></li>' for h, ic, t, d, k in R)
 search = f'''
@@ -366,7 +366,7 @@ search = f'''
 <div class="suggest"><span>Popular:</span><button type="button">missed delivery</button><button type="button">invoice</button><button type="button">airports</button><button type="button">Durban</button><button type="button">sampling</button></div></div></section>
 <section class="section" style="padding-top:48px"><div class="wrap"><p class="status" id="search-status" role="status"></p><ul class="results">{results}</ul>
 <div class="search-help" id="search-help" hidden>Can’t find it? Call <a class="ul" href="tel:{JHB_TEL}">{JHB}</a> or see <a class="ul" href="contact.html#needs">who to contact</a>.</div>
-<p class="web muted">Looking for something from the current website? <a class="ul" id="web-search" href="https://www.google.com/search?q=site%3Amediasupport.co.za">Search mediasupport.co.za on Google</a></p></div></section>'''
-page("search.html", "Search | Media Support", "Search Media Support services, delivery help and contacts.", "search", search)
+<p class="web muted">Can’t find it here? <a class="ul" id="web-search" href="https://www.google.com/search?q=">Search the web</a></p></div></section>'''
+page("search.html", "Search | Your Company", "Search Your Company services, delivery help and contacts.", "search", search)
 
 print("built", sorted(p.name for p in OUT.iterdir() if p.suffix == ".html"))
